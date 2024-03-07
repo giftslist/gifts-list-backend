@@ -18,4 +18,10 @@ export class UsersRepository {
       },
     });
   }
+
+  async findFirst(where: Prisma.UserWhereInput): Promise<UserModel> {
+    return await this.prismaService.user.findFirst({
+      where,
+    });
+  }
 }

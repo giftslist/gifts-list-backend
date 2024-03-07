@@ -31,7 +31,7 @@ export class UsersController {
 
       return CreateUserResponseDTO.factory(user);
     } catch (err) {
-      throw new BadRequestException();
+      throw new BadRequestException(err?.message);
     }
   }
 }

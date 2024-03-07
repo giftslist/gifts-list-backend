@@ -21,7 +21,7 @@ export class CreateUserResponseDTO {
   name: string;
 
   static factory(user: UserModel) {
-    const { createdAt, deletedAt, ...newUser } = user;
+    const { createdAt, deletedAt, password, ...newUser } = user;
     return newUser;
   }
 }

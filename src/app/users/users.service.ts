@@ -1,18 +1,33 @@
 import { Injectable } from '@nestjs/common';
-import { UsersRepository } from './users.repository';
+import * as CryptoJS from 'crypto-js';
 
-import type { CreateUser } from './interfaces';
+import { EmailAlreadyRegisteredException } from 'src/common/errors';
+import type { CreateUserParams } from './interfaces';
+import { UsersRepository } from './users.repository';
 
 @Injectable()
 export class UsersService {
   constructor(private readonly usersRepository: UsersRepository) {}
 
-  create({ name, email, password }: CreateUser) {
-    // TO DO: Adicionar criptografia para senha e validação se usuário já existe
+  async create({ name, email, password }: CreateUserParams) {
+    const registeredUser = await this.usersRepository.findFirst({
+      email,
+    });
+
+    if (registeredUser) {
+      throw new EmailAlreadyRegisteredException();
+    }
+
+    const encryptedPassword = this.getEncryptedText(password);
+
     return this.usersRepository.create({
       name,
       email,
-      password,
+      password: encryptedPassword,
     });
+  }
+
+  private getEncryptedText(value: string) {
+    return CryptoJS.MD5(value).toString();
   }
 }
