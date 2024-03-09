@@ -12,6 +12,9 @@ model User {
   name      String    @map("Nome")
   email     String    @map("Email")
   password  String    @map("Senha")
+
+  events    Event[]
+
   createdAt DateTime? @default(now()) @map("CriadoEm")
   deletedAt DateTime? @map("DeletadoEm")
 
@@ -24,8 +27,13 @@ model Event {
   type      String    @map("Tipo")
   date      DateTime  @map("Data")
 
+  host      User      @relation(fields: [hostId], references: [id])
+  hostId    String    @map("Anfritriao")
+
   createdAt DateTime? @default(now()) @map("CriadoEm")
   deletedAt DateTime? @map("DeletadoEm")
+
+  @@unique([hostId, id], name: "HostEvent")
 
   @@map("Evento")
 }
