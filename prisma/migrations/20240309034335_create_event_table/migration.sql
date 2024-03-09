@@ -3,7 +3,7 @@ CREATE TABLE "Evento" (
     "Id" TEXT NOT NULL,
     "Nome" TEXT NOT NULL,
     "Tipo" TEXT NOT NULL,
-    "Data" TIMESTAMP(3),
+    "Data" TIMESTAMP(3) NOT NULL,
     "CriadoEm" TIMESTAMP(3) DEFAULT CURRENT_TIMESTAMP,
     "DeletadoEm" TIMESTAMP(3),
 
