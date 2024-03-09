@@ -17,3 +17,15 @@ model User {
 
   @@map("Usuario")
 }
+
+model Event {
+  id        String    @id @default(uuid()) @map("Id")
+  name      String    @map("Nome")
+  type      String    @map("Tipo")
+  date      DateTime? @map("Data")
+
+  createdAt DateTime? @default(now()) @map("CriadoEm")
+  deletedAt DateTime? @map("DeletadoEm")
+
+  @@map("Evento")
+}
