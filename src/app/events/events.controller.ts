@@ -8,22 +8,22 @@ import {
 
 import { BadRequestDTO, UnauthorizedRequestDTO } from 'src/common/dtos';
 import { CreateEventRequestDTO, CreateEventResponseDTO } from './dtos';
+import { EventsService } from './events.service';
 
 @ApiTags('Events')
 @ApiUnauthorizedResponse({ type: UnauthorizedRequestDTO })
 @ApiBadRequestResponse({ type: BadRequestDTO })
 @Controller('events')
 export class EventsController {
-  constructor() {}
+  constructor(private readonly service: EventsService) {}
 
-  @Post()
   @ApiCreatedResponse({ type: CreateEventResponseDTO })
+  @Post()
   async create(@Body() params: CreateEventRequestDTO) {
-
+    const { name, date, type } = params;
     try {
-      return {
-        
-      };
+      const result = await this.service.create({name, date, type});
+      return result
     } catch (err) {
       throw new BadRequestException(err?.message);
     }
