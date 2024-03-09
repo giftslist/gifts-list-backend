@@ -1,6 +1,6 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { Event as EventModel } from "@prisma/client";
-import { IsDateString, IsNotEmpty, IsString } from "class-validator";
+import { IsDateString, IsNotEmpty, IsString, IsUUID } from "class-validator";
 
 export class CreateEventRequestDTO {
   @ApiProperty({
@@ -35,6 +35,17 @@ export class CreateEventRequestDTO {
   @IsNotEmpty()
   @IsDateString()
   date: Date;
+
+  @ApiProperty({
+    type: String,
+    description: 'Id do anfitrião',
+    name: 'anfitrião',
+    example: '524756c3-a956-4cb5-828d-71f3409e5f3d',
+    required: true
+  })
+  @IsNotEmpty()
+  @IsUUID()
+  hostId: string;
 
   static fromEventModel(event: EventModel) {
     const { createdAt, deletedAt, ...eventResult } = event;

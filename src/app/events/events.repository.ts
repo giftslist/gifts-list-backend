@@ -7,13 +7,16 @@ export class EventsRepository {
   constructor(private readonly prismaService: PrismaService) {}
 
   async create(input: Prisma.EventCreateInput): Promise<EventModel>{
-    const { name, type } = input;
+    const { name, type, host } = input;
     const date = typeof input.date == 'string'? new Date(Date.parse(input.date)) : input.date;
     return await this.prismaService.event.create({
       data: {
         name: name,
         type: type,
-        date: date
+        date: date,
+        host: {
+          connect: { id: host.connect.id }
+        }
       },
     });
   }
