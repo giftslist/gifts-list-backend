@@ -1,6 +1,6 @@
-import { ApiProperty } from "@nestjs/swagger/dist/decorators/api-property.decorator";
+import { ApiProperty } from "@nestjs/swagger";
 import { Event as EventModel } from "@prisma/client";
-import { IsDate, IsNotEmpty, IsString } from "class-validator";
+import { IsDateString, IsNotEmpty, IsString } from "class-validator";
 
 export class CreateEventRequestDTO {
   @ApiProperty({
@@ -32,8 +32,8 @@ export class CreateEventRequestDTO {
     example: '2024-02-02',
     required: true
   })
-  @IsDate()
   @IsNotEmpty()
+  @IsDateString()
   date: Date;
 
   static fromEventModel(event: EventModel) {
