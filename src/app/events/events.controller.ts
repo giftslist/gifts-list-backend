@@ -23,7 +23,7 @@ export class EventsController {
     const { name, date, type } = params;
     try {
       const result = await this.service.create({name, date, type});
-      return result
+      return CreateEventRequestDTO.fromEventModel(result);
     } catch (err) {
       throw new BadRequestException(err?.message);
     }
