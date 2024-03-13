@@ -1,17 +1,28 @@
-import { BadRequestException, Body, Controller, Post } from '@nestjs/common';
+import {
+  BadRequestException,
+  Body,
+  Controller,
+  HttpCode,
+  Post,
+} from '@nestjs/common';
 import {
   ApiBadRequestResponse,
   ApiCreatedResponse,
+  ApiOkResponse,
   ApiTags,
-  ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
 
-import { BadRequestDTO, UnauthorizedRequestDTO } from 'src/common/dtos';
-import { CreateUserRequesDTO, CreateUserResponseDTO } from './dtos';
+import { BadRequestDTO } from 'src/common/dtos';
+import {
+  CreateUserRequesDTO,
+  CreateUserResponseDTO,
+  LoginUserRequestDTO,
+  LoginUserResponseDTO,
+} from './dtos';
+
 import { UsersService } from './users.service';
 
 @ApiTags('Users')
-@ApiUnauthorizedResponse({ type: UnauthorizedRequestDTO })
 @ApiBadRequestResponse({ type: BadRequestDTO })
 @Controller('users')
 export class UsersController {
@@ -30,6 +41,24 @@ export class UsersController {
       });
 
       return CreateUserResponseDTO.factory(user);
+    } catch (err) {
+      throw new BadRequestException(err?.message);
+    }
+  }
+
+  @ApiOkResponse({ type: CreateUserResponseDTO })
+  @HttpCode(200)
+  @Post('/login')
+  async login(@Body() params: LoginUserRequestDTO) {
+    const { email, password } = params;
+
+    try {
+      const user = await this.usersService.loginUser({
+        email,
+        password,
+      });
+
+      return LoginUserResponseDTO.factory(user);
     } catch (err) {
       throw new BadRequestException(err?.message);
     }

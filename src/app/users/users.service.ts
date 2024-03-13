@@ -1,8 +1,8 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import * as CryptoJS from 'crypto-js';
 
 import { EmailAlreadyRegisteredException } from 'src/common/errors';
-import type { CreateUserParams } from './interfaces';
+import type { CreateUserParams, LoginUserParams } from './interfaces';
 import { UsersRepository } from './users.repository';
 
 @Injectable()
@@ -25,6 +25,21 @@ export class UsersService {
       email,
       password: encryptedPassword,
     });
+  }
+
+  async loginUser({ email, password }: LoginUserParams) {
+    const encryptedPassword = this.getEncryptedText(password);
+
+    const user = await this.usersRepository.findFirst({
+      email,
+      password: encryptedPassword,
+    });
+
+    if (!user) {
+      throw new NotFoundException('Usuário não encontrado');
+    }
+
+    return user;
   }
 
   private getEncryptedText(value: string) {
