@@ -5,6 +5,8 @@ import { EmailAlreadyRegisteredException } from 'src/common/errors';
 import type { CreateUserParams } from './interfaces';
 import { UsersRepository } from './users.repository';
 
+import { UserNotFoundException } from './errors';
+
 @Injectable()
 export class UsersService {
   constructor(private readonly usersRepository: UsersRepository) {}
@@ -25,6 +27,18 @@ export class UsersService {
       email,
       password: encryptedPassword,
     });
+  }
+
+  async getById(id: string){
+    const registeredUser = await this.usersRepository.findFirst({
+      id,
+    });
+
+    if(!registeredUser){
+      throw new UserNotFoundException();
+    }
+
+    return registeredUser;
   }
 
   private getEncryptedText(value: string) {
