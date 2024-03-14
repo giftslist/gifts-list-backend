@@ -1,14 +1,19 @@
-import { ApiProperty } from "@nestjs/swagger";
-import { Event as EventModel } from "@prisma/client";
-import { IsDateString, IsNotEmpty, IsString, IsUUID } from "class-validator";
+import { ApiProperty } from '@nestjs/swagger';
+import {
+  IsDateString,
+  IsEnum,
+  IsNotEmpty,
+  IsString,
+  IsUUID,
+} from 'class-validator';
+import { EventType } from 'src/common/enums/event-type.enum';
 
 export class CreateEventRequestDTO {
   @ApiProperty({
     type: String,
     description: 'Titulo do Evento',
-    name: 'titulo',
-    example: 'Evento legal uau',
-    required: true
+    example: 'Evento legal',
+    required: true,
   })
   @IsString()
   @IsNotEmpty()
@@ -17,20 +22,18 @@ export class CreateEventRequestDTO {
   @ApiProperty({
     type: String,
     description: 'Tipo do evento',
-    name: 'tipo',
-    example: 'Chá de bebê',
-    required: true
+    example: 'CASAMENTO',
+    required: true,
   })
-  @IsString()
+  @IsEnum(EventType)
   @IsNotEmpty()
-  type: string;
+  type: EventType;
 
   @ApiProperty({
     type: Date,
     description: 'Data do evento',
-    name: 'data',
     example: '2024-02-02',
-    required: true
+    required: true,
   })
   @IsNotEmpty()
   @IsDateString()
@@ -39,16 +42,10 @@ export class CreateEventRequestDTO {
   @ApiProperty({
     type: String,
     description: 'Id do anfitrião',
-    name: 'anfitrião',
     example: '524756c3-a956-4cb5-828d-71f3409e5f3d',
-    required: true
+    required: true,
   })
   @IsNotEmpty()
   @IsUUID()
-  hostId: string;
-
-  static fromEventModel(event: EventModel) {
-    const { createdAt, deletedAt, ...eventResult } = event;
-    return eventResult;
-  }
+  host_id: string;
 }

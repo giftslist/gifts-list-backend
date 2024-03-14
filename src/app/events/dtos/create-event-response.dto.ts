@@ -1,4 +1,5 @@
-import { ApiProperty } from "@nestjs/swagger";
+import { ApiProperty } from '@nestjs/swagger';
+import { Event as EventModel } from '@prisma/client';
 
 export class CreateEventResponseDTO {
   @ApiProperty({
@@ -15,7 +16,7 @@ export class CreateEventResponseDTO {
 
   @ApiProperty({
     type: String,
-    example: 'Casamento',
+    example: 'CASAMENTO',
   })
   type: string;
 
@@ -24,4 +25,9 @@ export class CreateEventResponseDTO {
     example: '2024-02-02',
   })
   date: Date;
+
+  static factory(event: EventModel) {
+    const { createdAt, deletedAt, hostId, ...eventResult } = event;
+    return eventResult;
+  }
 }

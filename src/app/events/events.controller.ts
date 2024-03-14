@@ -20,10 +20,17 @@ export class EventsController {
   @ApiCreatedResponse({ type: CreateEventResponseDTO })
   @Post()
   async create(@Body() params: CreateEventRequestDTO) {
-    const { name, date, type, hostId} = params;
+    const { name, date, type, host_id } = params;
+
     try {
-      const result = await this.service.create({name, date, type, hostId});
-      return CreateEventRequestDTO.fromEventModel(result);
+      const result = await this.service.create({
+        name,
+        date,
+        type,
+        hostId: host_id,
+      });
+
+      return CreateEventResponseDTO.factory(result);
     } catch (err) {
       throw new BadRequestException(err?.message);
     }
