@@ -8,12 +8,12 @@ datasource db {
 }
 
 model User {
-  id        String    @id @default(uuid()) @map("Id")
-  name      String    @map("Nome")
-  email     String    @map("Email")
-  password  String    @map("Senha")
+  id       String @id @default(uuid()) @map("Id")
+  name     String @map("Nome")
+  email    String @map("Email")
+  password String @map("Senha")
 
-  events    Event[]
+  events Event[]
 
   createdAt DateTime? @default(now()) @map("CriadoEm")
   deletedAt DateTime? @map("DeletadoEm")
@@ -22,18 +22,33 @@ model User {
 }
 
 model Event {
-  id        String    @id @default(uuid()) @map("Id")
-  name      String    @map("Nome")
-  type      String    @map("Tipo")
-  date      DateTime  @map("Data")
+  id   String   @id @default(uuid()) @map("Id")
+  name String   @map("Nome")
+  type String   @map("Tipo")
+  date DateTime @map("Data")
 
-  host      User      @relation(fields: [hostId], references: [id])
-  hostId    String    @map("Anfritriao")
+  host   User   @relation(fields: [hostId], references: [id])
+  hostId String @map("Anfritriao")
 
   createdAt DateTime? @default(now()) @map("CriadoEm")
   deletedAt DateTime? @map("DeletadoEm")
 
-  @@unique([hostId, id], name: "HostEvent")
+  giftsList GiftsList[]
 
+  @@unique([hostId, id], name: "HostEvent")
   @@map("Evento")
+}
+
+model GiftsList {
+  id   String @id @default(uuid()) @map("Id")
+  name String @map("Nome")
+
+  event    Event  @relation(fields: [event_id], references: [id])
+  event_id String @map("IdEvento")
+
+  createdAt DateTime? @default(now()) @map("CriadoEm")
+  deletedAt DateTime? @map("DeletadoEm")
+
+  @@unique([event_id, id])
+  @@map("ListaPresentes")
 }
