@@ -43,12 +43,12 @@ model GiftsList {
   id   String @id @default(uuid()) @map("Id")
   name String @map("Nome")
 
-  event    Event  @relation(fields: [event_id], references: [id])
-  event_id String @map("IdEvento")
+  event   Event  @relation(fields: [eventId], references: [id])
+  eventId String @map("IdEvento")
 
   createdAt DateTime? @default(now()) @map("CriadoEm")
   deletedAt DateTime? @map("DeletadoEm")
 
-  @@unique([event_id, id])
+  @@unique([eventId, id])
   @@map("ListaPresentes")
 }
