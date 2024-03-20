@@ -10,7 +10,7 @@ import { BadRequestDTO, UnauthorizedRequestDTO } from 'src/common/dtos';
 import { CreateEventRequestDTO, CreateEventResponseDTO } from './dtos';
 import { EventsService } from './events.service';
 
-@ApiTags('Events')
+@ApiTags('Eventos')
 @ApiUnauthorizedResponse({ type: UnauthorizedRequestDTO })
 @ApiBadRequestResponse({ type: BadRequestDTO })
 @Controller('events')

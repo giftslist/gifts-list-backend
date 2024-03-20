@@ -33,15 +33,16 @@ model Event {
   createdAt DateTime? @default(now()) @map("CriadoEm")
   deletedAt DateTime? @map("DeletadoEm")
 
-  giftsList GiftsList[]
+  eventGift EventGift[]
 
   @@unique([hostId, id], name: "HostEvent")
   @@map("Evento")
 }
 
-model GiftsList {
-  id   String @id @default(uuid()) @map("Id")
-  name String @map("Nome")
+model EventGift {
+  id        String  @id @default(uuid()) @map("Id")
+  name      String  @map("Nome")
+  giftGiver String? @map("Presenteador")
 
   event   Event  @relation(fields: [eventId], references: [id])
   eventId String @map("IdEvento")
@@ -50,5 +51,5 @@ model GiftsList {
   deletedAt DateTime? @map("DeletadoEm")
 
   @@unique([eventId, id])
-  @@map("ListaPresentes")
+  @@map("EventoPresente")
 }

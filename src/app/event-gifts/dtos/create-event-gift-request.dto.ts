@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsArray, IsNotEmpty, IsUUID } from 'class-validator';
+import { IsNotEmpty, IsString, IsUUID, MinLength } from 'class-validator';
 
-export class CreateGiftsListRequestDTO {
+export class CreateEventGiftRequestDTO {
   @ApiProperty({
     type: String,
     description: 'Id do evento',
@@ -13,12 +13,13 @@ export class CreateGiftsListRequestDTO {
   event_id: string;
 
   @ApiProperty({
-    type: Array,
-    description: 'Nomes dos presentes',
-    example: ['Panela', 'Prato'],
+    type: String,
+    description: 'Nome dos presentes',
+    example: 'Panela',
     required: true,
   })
-  @IsArray()
+  @IsString()
+  @MinLength(1)
   @IsNotEmpty()
-  names: string[];
+  name: string;
 }

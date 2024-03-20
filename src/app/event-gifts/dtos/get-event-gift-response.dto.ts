@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
-import type { GiftsList as GiftsListModel } from '@prisma/client';
+import type { EventGift as EventGiftModel } from '@prisma/client';
 
-export class GetGiftsListResponseDTO {
+export class GetEventGiftsResponseDTO {
   @ApiProperty({
     type: Array,
     example: [
@@ -15,17 +15,17 @@ export class GetGiftsListResponseDTO {
       },
     ],
   })
-  giftsList: {
+  data: {
     id: string;
     name: string;
+    gift_giver: string;
   }[];
 
-  static factory(giftsListModel: GiftsListModel[]) {
-    const newList = giftsListModel.map((gift) => ({
+  static factory(eventGiftModel: EventGiftModel[]) {
+    return eventGiftModel.map((gift) => ({
       id: gift.id,
       name: gift.name,
+      gift_giver: gift.giftGiver,
     }));
-
-    return newList;
   }
 }

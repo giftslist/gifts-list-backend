@@ -1,4 +1,4 @@
-export interface CreateListParams {
+export interface CreateGiftsParams {
   eventId: string;
   names: string[];
 }
