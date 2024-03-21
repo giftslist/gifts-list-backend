@@ -22,7 +22,7 @@ import {
 
 import { UsersService } from './users.service';
 
-@ApiTags('Users')
+@ApiTags('Usuários')
 @ApiBadRequestResponse({ type: BadRequestDTO })
 @Controller('users')
 export class UsersController {
