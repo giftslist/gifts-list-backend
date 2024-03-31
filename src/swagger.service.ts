@@ -8,6 +8,7 @@ export const enableSwagger = (
   const config = new DocumentBuilder()
     .setTitle("Gift's List")
     .setVersion('1.0')
+    .addServer(`http://localhost:${process.env.APP_PORT}/`, 'Local')
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup(documentationPath, app, document);

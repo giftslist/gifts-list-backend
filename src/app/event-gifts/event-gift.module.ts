@@ -7,5 +7,6 @@ import { EventGiftService } from './event-gift.service';
 @Module({
   providers: [EventGiftService, EventGiftRepository, PrismaService],
   controllers: [EventGiftController],
+  exports: [EventGiftService],
 })
 export class EventGiftModule {}

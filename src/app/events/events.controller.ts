@@ -1,13 +1,25 @@
-import { BadRequestException, Body, Controller, Post } from '@nestjs/common';
+import {
+  BadRequestException,
+  Body,
+  Controller,
+  Get,
+  Param,
+  Post,
+} from '@nestjs/common';
 import {
   ApiBadRequestResponse,
   ApiCreatedResponse,
+  ApiOkResponse,
   ApiTags,
   ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
 
 import { BadRequestDTO, UnauthorizedRequestDTO } from 'src/common/dtos';
-import { CreateEventRequestDTO, CreateEventResponseDTO } from './dtos';
+import {
+  CreateEventRequestDTO,
+  CreateEventResponseDTO,
+  GetEventResponseDTO,
+} from './dtos';
 import { EventsService } from './events.service';
 
 @ApiTags('Eventos')
@@ -31,6 +43,17 @@ export class EventsController {
       });
 
       return CreateEventResponseDTO.factory(result);
+    } catch (err) {
+      throw new BadRequestException(err?.message);
+    }
+  }
+
+  @ApiOkResponse({ type: GetEventResponseDTO })
+  @Get(':event_id')
+  async findEvent(@Param('event_id') eventID: string) {
+    try {
+      const result = await this.service.getEventAndGiftsByID(eventID);
+      return GetEventResponseDTO.factory(result);
     } catch (err) {
       throw new BadRequestException(err?.message);
     }
