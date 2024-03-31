@@ -1,5 +1,6 @@
 export enum EventType {
   CHA_DE_BEBE = 'CHA_DE_BEBE',
+  CHA_COZINHA = 'CHA_COZINHA',
   CASAMENTO = 'CASAMENTO',
   ANIVERSARIO = 'ANIVERSARIO',
 }
