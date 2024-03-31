@@ -1,7 +1,15 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 
 import { EventGiftRepository } from './event-gift.repository';
-import type { CreateGiftParams, CreateGiftsParams } from './interfaces';
+import type {
+  CreateGiftParams,
+  CreateGiftsParams,
+  SelectGiftParams,
+} from './interfaces';
 
 @Injectable()
 export class EventGiftService {
@@ -31,6 +39,31 @@ export class EventGiftService {
   }
 
   async delete(giftID: string) {
+    await this.getEventGiftOrThrowError(giftID);
+    return await this.eventGiftRepository.delete(giftID);
+  }
+
+  async selectGift({ giftID, giverName }: SelectGiftParams) {
+    const eventGift = await this.getEventGiftOrThrowError(giftID);
+    const alreadyHaveGiver = !!eventGift.giftGiver?.length;
+
+    if (alreadyHaveGiver) {
+      throw new BadRequestException(
+        'O presente já foi selecionado por outra pessoa!',
+      );
+    }
+
+    return await this.eventGiftRepository.update({
+      where: {
+        id: giftID,
+      },
+      data: {
+        giftGiver: giverName,
+      },
+    });
+  }
+
+  async getEventGiftOrThrowError(giftID: string) {
     const existGift = await this.eventGiftRepository.findFirst({
       id: giftID,
     });
@@ -39,6 +72,6 @@ export class EventGiftService {
       throw new NotFoundException('Presente não encontrado');
     }
 
-    return await this.eventGiftRepository.delete(giftID);
+    return existGift;
   }
 }

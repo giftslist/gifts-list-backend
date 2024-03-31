@@ -6,6 +6,7 @@ import {
   Get,
   Param,
   Post,
+  Put,
 } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
@@ -23,6 +24,7 @@ import {
 } from './dtos';
 
 import { CreateEventGiftsRequestDTO } from './dtos/create-event-gifts-request.dto';
+import { SelectGiftRequestDTO } from './dtos/select-gift-request.dto ';
 import { EventGiftService } from './event-gift.service';
 
 @ApiTags('Presentes')
@@ -82,6 +84,21 @@ export class EventGiftController {
   async deleteGift(@Param('gift_id') gift_id: string) {
     try {
       await this.eventGiftService.delete(gift_id);
+    } catch (err) {
+      throw new BadRequestException(err?.message);
+    }
+  }
+
+  @ApiOkResponse()
+  @Put('select')
+  async selectGift(@Body() params: SelectGiftRequestDTO) {
+    const { gift_id, giver_name } = params;
+
+    try {
+      await this.eventGiftService.selectGift({
+        giftID: gift_id,
+        giverName: giver_name,
+      });
     } catch (err) {
       throw new BadRequestException(err?.message);
     }

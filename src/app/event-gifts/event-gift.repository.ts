@@ -43,4 +43,8 @@ export class EventGiftRepository {
       },
     });
   }
+
+  async update(updateParams: Prisma.EventGiftUpdateArgs) {
+    return await this.prismaService.eventGift.update(updateParams);
+  }
 }
