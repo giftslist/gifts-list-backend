@@ -41,7 +41,7 @@ export class EventsService {
     const formattedGifts = eventGifts.map((gift) => ({
       id: gift.id,
       name: gift.name,
-      giftGiver: gift.giftGiver,
+      giftGiver: gift.giftGiver?.name || null,
     }));
 
     return {

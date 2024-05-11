@@ -13,10 +13,11 @@ model User {
   email    String @map("Email")
   password String @map("Senha")
 
-  events Event[]
-
   createdAt DateTime? @default(now()) @map("CriadoEm")
   deletedAt DateTime? @map("DeletadoEm")
+
+  events    Event[]
+  EventGift EventGift[]
 
   @@map("Usuario")
 }
@@ -40,9 +41,11 @@ model Event {
 }
 
 model EventGift {
-  id        String  @id @default(uuid()) @map("Id")
-  name      String  @map("Nome")
-  giftGiver String? @map("Presenteador")
+  id   String @id @default(uuid()) @map("Id")
+  name String @map("Nome")
+
+  giftGiver   User?   @relation(fields: [giftGiverId], references: [id])
+  giftGiverId String? @map("IdPresenteador")
 
   event   Event  @relation(fields: [eventId], references: [id])
   eventId String @map("IdEvento")
