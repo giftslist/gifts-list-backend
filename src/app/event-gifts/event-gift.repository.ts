@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { EventGift as EventGiftModel, Prisma } from '@prisma/client';
 import { PrismaService } from 'src/common/services';
+import type { EventGiftWithGiftGiver } from './interfaces';
 
 @Injectable()
 export class EventGiftRepository {
@@ -30,9 +31,14 @@ export class EventGiftRepository {
     });
   }
 
-  async findMany(where: Prisma.EventGiftWhereInput): Promise<EventGiftModel[]> {
+  async findMany(
+    where: Prisma.EventGiftWhereInput,
+  ): Promise<EventGiftWithGiftGiver[]> {
     return await this.prismaService.eventGift.findMany({
       where,
+      include: {
+        giftGiver: true,
+      },
     });
   }
 

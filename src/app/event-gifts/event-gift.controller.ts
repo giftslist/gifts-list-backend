@@ -92,12 +92,12 @@ export class EventGiftController {
   @ApiOkResponse()
   @Put('select')
   async selectGift(@Body() params: SelectGiftRequestDTO) {
-    const { gift_id, giver_name } = params;
+    const { gift_id, gift_giver_id } = params;
 
     try {
       await this.eventGiftService.selectGift({
         giftID: gift_id,
-        giverName: giver_name,
+        giftGiverId: gift_giver_id,
       });
     } catch (err) {
       throw new BadRequestException(err?.message);

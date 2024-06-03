@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import type { EventGift as EventGiftModel } from '@prisma/client';
+import type { EventGiftWithGiftGiver } from '../interfaces';
 
 export class GetEventGiftsResponseDTO {
   @ApiProperty({
@@ -21,11 +21,11 @@ export class GetEventGiftsResponseDTO {
     gift_giver: string;
   }[];
 
-  static factory(eventGiftModel: EventGiftModel[]) {
+  static factory(eventGiftModel: EventGiftWithGiftGiver[]) {
     return eventGiftModel.map((gift) => ({
       id: gift.id,
       name: gift.name,
-      gift_giver: gift.giftGiver,
+      gift_giver: gift.giftGiver?.name || null,
     }));
   }
 }

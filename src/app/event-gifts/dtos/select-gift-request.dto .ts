@@ -13,12 +13,12 @@ export class SelectGiftRequestDTO {
   gift_id: string;
 
   @ApiProperty({
-    type: Array,
-    description: 'Nome do presenteador',
-    example: 'Alex',
+    type: String,
+    description: 'Id do presenteador',
+    example: '524756c3-a956-4cb5-828d-71f3409e5f3d',
     required: true,
   })
   @IsString()
   @IsNotEmpty()
-  giver_name: string;
+  gift_giver_id: string;
 }

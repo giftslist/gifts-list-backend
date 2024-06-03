@@ -1,3 +1,4 @@
+import type { Event as EventModel } from '@prisma/client';
 import type { EventWithGifts } from 'src/app/events/interfaces';
 
 export interface GetDashboardByUserIDResponse {
@@ -6,5 +7,6 @@ export interface GetDashboardByUserIDResponse {
     name: string;
     email: string;
   };
-  events: EventWithGifts[];
+  my_events: EventWithGifts[];
+  another_events: EventModel[];
 }

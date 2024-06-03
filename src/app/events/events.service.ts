@@ -41,7 +41,7 @@ export class EventsService {
     const formattedGifts = eventGifts.map((gift) => ({
       id: gift.id,
       name: gift.name,
-      giftGiver: gift.giftGiver,
+      giftGiver: gift.giftGiver?.name || null,
     }));
 
     return {
@@ -51,6 +51,23 @@ export class EventsService {
       date,
       gifts: formattedGifts,
     };
+  }
+
+  async getEventsForGiftGifter(giftGiverId: string) {
+    const eventIds = [];
+    const gifts = await this.eventGiftService.getByGiftGiverID(giftGiverId);
+
+    for (const gift of gifts) {
+      if (!eventIds.includes(gift.eventId)) {
+        eventIds.push(gift.eventId);
+      }
+    }
+
+    return await this.repository.findMany({
+      id: {
+        in: eventIds,
+      },
+    });
   }
 
   async getEventByIdOrThrowError(eventID: string) {

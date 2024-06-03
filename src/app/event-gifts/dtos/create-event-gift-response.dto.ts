@@ -21,7 +21,7 @@ export class CreateEventGiftsResponseDTO {
     return {
       id: eventGiftModel.id,
       name: eventGiftModel.name,
-      gift_giver: eventGiftModel.giftGiver,
+      gift_giver: eventGiftModel.giftGiverId,
     };
   }
 }

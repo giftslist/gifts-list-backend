@@ -38,14 +38,20 @@ export class EventGiftService {
     });
   }
 
+  async getByGiftGiverID(giftGiverId: string) {
+    return await this.eventGiftRepository.findMany({
+      giftGiverId,
+    });
+  }
+
   async delete(giftID: string) {
     await this.getEventGiftOrThrowError(giftID);
     return await this.eventGiftRepository.delete(giftID);
   }
 
-  async selectGift({ giftID, giverName }: SelectGiftParams) {
+  async selectGift({ giftID, giftGiverId }: SelectGiftParams) {
     const eventGift = await this.getEventGiftOrThrowError(giftID);
-    const alreadyHaveGiver = !!eventGift.giftGiver?.length;
+    const alreadyHaveGiver = !!eventGift.giftGiverId?.length;
 
     if (alreadyHaveGiver) {
       throw new BadRequestException(
@@ -58,7 +64,7 @@ export class EventGiftService {
         id: giftID,
       },
       data: {
-        giftGiver: giverName,
+        giftGiverId,
       },
     });
   }
