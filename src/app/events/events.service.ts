@@ -53,6 +53,23 @@ export class EventsService {
     };
   }
 
+  async getEventsForGiftGifter(giftGiverId: string) {
+    const eventIds = [];
+    const gifts = await this.eventGiftService.getByGiftGiverID(giftGiverId);
+
+    for (const gift of gifts) {
+      if (!eventIds.includes(gift.eventId)) {
+        eventIds.push(gift.eventId);
+      }
+    }
+
+    return await this.repository.findMany({
+      id: {
+        in: eventIds,
+      },
+    });
+  }
+
   async getEventByIdOrThrowError(eventID: string) {
     const event = await this.repository.findFirst(eventID);
 

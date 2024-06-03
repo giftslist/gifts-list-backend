@@ -38,6 +38,12 @@ export class EventGiftService {
     });
   }
 
+  async getByGiftGiverID(giftGiverId: string) {
+    return await this.eventGiftRepository.findMany({
+      giftGiverId,
+    });
+  }
+
   async delete(giftID: string) {
     await this.getEventGiftOrThrowError(giftID);
     return await this.eventGiftRepository.delete(giftID);

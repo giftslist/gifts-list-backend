@@ -33,6 +33,17 @@ export class GetDashboardResponseDTO {
   events: Record<string, string>[];
 
   static factory(dashboardModel: GetDashboardByUserIDResponse) {
-    return snakeKeys(dashboardModel);
+    const formattedAnotherEvents = dashboardModel.another_events?.map(
+      (anotherEvent) => {
+        const { createdAt, deletedAt, ...eventResult } = anotherEvent;
+        return eventResult;
+      },
+    );
+    const newDashboardModel = {
+      ...dashboardModel,
+      another_events: formattedAnotherEvents,
+    };
+
+    return snakeKeys(newDashboardModel);
   }
 }

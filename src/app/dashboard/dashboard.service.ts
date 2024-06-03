@@ -17,7 +17,10 @@ export class DashboardService {
     userID: string,
   ): Promise<GetDashboardByUserIDResponse> {
     const { id, name, email } = await this.usersService.getById(userID);
+
     const events = await this.eventsService.getEventByUserID(userID);
+    const anotherEvents =
+      await this.eventsService.getEventsForGiftGifter(userID);
 
     const giftsByEvent: EventWithGifts[] = [];
 
@@ -31,7 +34,8 @@ export class DashboardService {
 
     return {
       user: { id, name, email },
-      events: giftsByEvent,
+      my_events: giftsByEvent,
+      another_events: anotherEvents,
     };
   }
 }
